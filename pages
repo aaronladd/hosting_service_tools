@@ -1,0 +1,201 @@
+NAME
+    Troubleshooting Toolset: Collection of tools to aid in troubleshooting wordpress and (mainly) VPS/Dedicated/OHWP servers. 
+SYNOPSIS
+    To run the command ssh into the box you wish to use it on and run . <(curl -sS http://www.apathabove.net/scripts/tools)
+DESCRIPTION
+    Main importation of toolset and wordpress tools further details can be found in subsections of this page.
+EXAMPLES
+   username@server.domain.tld [public_html]# . <(curl -sS http://www.apathabove.net/scripts/tools) 
+SEE ALSO
+    guided
+BUGS
+    None known at this time.
+AUTHOR
+    Aaron Ladd email: fallenseriphan@gmail.com Motovosity always apprectiated. 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+NAME
+    prompts.sh: Loads wordpress.sh immediately to make the more commonly used portions immediately available then loads a suggestion based guide
+SYNOPSIS
+    loads wordpress.sh and remians dormant unless "guided" is called. 
+DESCRIPTION
+    prompts.sh is designed to remain dormant after loading wordpress.sh. To access it after calling the initiall toolset you'll follow the onscreen
+        guide and type "guided" to initiate the onscreen suggestion based guide.
+EXAMPLES
+    user@server.domain.tld [scripts]# . <(curl -sS http://www.apathabove.net/scripts/tools)
+    user@server.domain.tld [scripts]# guided
+SEE ALSO
+    . <(curl -sS http://www.apathabove.net/scripts/wordpress.sh) . <(curl -sS http://www.apathabove.net/scripts/tools.sh)
+BUGS
+    None known at this time. 
+AUTHOR
+    Aaron Ladd email: fallenseriphan@gmail.com Motovosity always apprectiated.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+NAME
+    wordpress.sh: group of functions used to specifically target wordpress installations
+SYNOPSIS
+    Import the toolset and the wordpress functions are immediatly available, you can also use the guided suggestion tool if 
+	you don't know the syntax of a command.
+DESCRIPTION
+    Group of wordpress tools.
+OPTIONS
+    wp_install		Downloads and installs wordpress to the current directory and then calls wp_config
+
+    wp_config		Prompts for the database name, username, and password (make sure that user is assigned to the database)
+
+    xmlrpc_fix		Appends a rewrite to the .htaccess directing all traffic attempt to access .xmlrpc to 0.0.0.0
+
+    wp_config_https	Fixes most https loops on (mainly) OHWP by adding some PHP to the wp-config.php file
+
+    ohwp_forward_ips	Forwards the end user's ip to the server for (mainly) web stats
+
+    wpdb		Attempts to make a connection to the database
+	-h		Can also use --help. Quick help information
+		wpdb -h, --help
+	-p		Can also use --prompt. Provides a mysql prompt using the credentials of the current directories wp-config.php.
+		wpdb -p, --prompt
+	-l		Can also use --failed. Clears any login lockets from the options table.
+		wpdb -l, --failed
+	-d		Can also use --dump. Calls mySQL dump on the database and creates a file with the same name as the database.
+		wpdb -d, --dump
+	-i		Can also use --import. Imports a file (provided by you) to the database.
+		wpdb (-i, --import) username_thisismydb.sql
+
+   wpplug		Displays the information that is currently in the active_plugins field of the database.
+	-h		Can also use --help. Quick help information.
+		wpplug -h, --help
+	-d		Can also use --disable. Saves currently contents of active_plugins to a file .active_plugs and then sets
+				the active_plugins field to nothing.
+		wpplug -d, --disable
+	-r		Can also use --restore. Restores plugins from .active_plugs file to the active_plugins field in the database.
+		wpplug -r, --restore
+	note:		You can quickly disable 1-2 plugins by disabling them all and editing the .active_plugs file and then restoring the file.
+
+   wptheme		Displays the current Template and Stylesheet. As well as a list of themes in the wp-content/themes directory.
+	-h		Can also use --help. Quick help information.
+		wptheme -h, --help
+	-t		Can also use --template. This flag followed by anything else will set only the template to what is passed to it.
+		wptheme (-t, --template) <theme_name>
+	-s		Can also use --stylesheet. This flag followed by anything else will set only the stylesheet to what is passed to it.
+		wptheme (-s, --stylesheet) <theme_name>
+	fresh		Downloads a fresh copy of twentytwelve and sets it as the active theme.
+		wptheme fresh
+	<theme_name>	Sets both the template and stylesheet to what is passed. 
+		wptheme <theme_name>
+
+   wpurl		Displays the current home/site url from the database.
+	-h		Can also use --help. Quick help information.
+		wpurl -h, --help
+	-o		Can also use --home. This flag followed by anything else will set only the home url to what is passed to it.
+		wpurl (-o, --home) <url>
+	-s		Can also use --site. This flag followed by anything else will set only the site url to what is passed to it.
+		wpurl (-s, --site) <url>
+	<url>		Passing anything here will set both the home and site url to the what is passed. 
+		wpurl <url>
+
+   wpuser		Displays the current users.
+	-h		Can also use --help. Quick help information
+		wpuser -h, --help
+	-u		Can also use --user. This flag followed by ID of the user in question then followed by the new username will set the 
+				username to what is desired 
+		wpuser (-u,--user) <ID> <new_username>
+	-p		Can also use --password. This flag followed by the ID of the user in question then followed by the new password will set
+				password to what is desired.
+		wpuser (-p, --password) <ID> <new_password>
+	-n		Can also use --new. This flag followed by the desired username/password will create a new admin user with that username/password.
+		wpuser (-n, --new) <username> <password>
+	-d		Can also use --delete. This flag followed by the ID of the desired account will delete all user and usermeta records for that ID.
+		wpuser (-d, --delete) <ID>
+	-p		Can also use --promote. This flag followed by the ID of the desired account will delete all usermeta records for that account
+				and instert the basic needed admin records.
+		wpuser (-p, --promote) <ID>
+
+   wpcore		Copies all wordpress files to a new directory core_wp_current_date/time and renames the wp-content directory. Then downloads
+				the latest version of wordpress and renames the wp-content directory back to normal. 
+
+   wpht			Replaces the .htaccess in the current directory with a new one containing only the wordpress .htaccess rules. The old one is named
+				.htaccess.applesauce
+EXAMPLES
+    wpht, wpuser -p 2, wpuser -p 1 TempTemp12!, wpurl http://www.google.com, wptheme -t twentyeleven
+SEE ALSO
+    prompts.sh tools.sh
+BUGS
+    No known bugs at this time. 
+AUTHOR
+    Aaron Ladd email: fallenseriphan@gmail.com 
+CONTRIBUTERS
+    James Roper
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+NAME
+    tools.sh: Collection of tools to aid in troubleshooting of VPS/Dedicated/OHWP servers and everyday general issues.
+SYNOPSIS
+    To run the command ssh into the box you wish to use it on and run . <(curl -sS http://www.apathabove.net/scripts/tools) then type guided and hit
+	enter then go to 2 (following the onscreen prompts) which should load the tools script. You can press ctrl+c and manually run commands or
+	continue following the onscreen prompt.
+DESCRIPTION
+    server_stats		Imports Kloutier's server status script, all rights are his.
+
+    deny_by_ip		Requests a list of comma separated IP addresses from the user, then adds those IPs to the .htaccess in an allow/deny.
+
+    https_redirect	Adds a force https redirect to the .htaccess
+
+    diff_php_ini		Requests that you provide a path to the new php.ini and will load the php.ini from that path instead of the default one. Only
+				works with suPHP.
+   
+    elog_display		Displays all error_logs from public_html and below piped to less
+
+    htac_display		Displays all .htaccess files from public_html and below.
+
+    trim_elogs		Trims all the error log files only keeping the last 100 lines of each.
+
+    access_logs          Shows you the available access-logs and requires you to select one by typing in the domain. Then, displays the 
+				last 10 lines of the access logs.
+	-h		Can also use --help. Quick help info.
+	-m		Can also use --more. Allows you to specify the number of lines you'd like to view.
+		access_logs -m <number_of_lines> (does not yet accept -<number_of_lines)
+
+    active_dbs_display	Displays what directories have active connections to databases and what the database names are.
+
+    php_ini_default	Downloads a default php.ini that will need to be renamed to the current directory.
+SEE ALSO
+    guided
+BUGS
+    None known at this time.
+AUTHOR
+    Aaron Ladd email: fallenseriphan@gmail.com Motovosity always apprectiated. 
+CONTRIBUTERS
+    Robin Santillian, Landon Brainard, and Jacob Cloutier
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+NAME
+    installers.sh: Collection of installers which will manually download and unpack various software.
+SYNOPSIS
+    To run the command ssh into the box you wish to use it on and run . <(curl -sS http://www.apathabove.net/scripts/tools) then type guided and hit
+        enter then go to 1 (following the onscreen prompts) which should load the installers script. You can press ctrl+c and manually run commands or
+        continue following the onscreen prompt.
+DESCRIPTION
+    con5_install	Downloads and unpacks Concrete 5 to the current directory, you or the user will then have to manually input the database info
+				through the domain.
+
+    joom_install	Downloads and unpacks the Joomala Install, you or the user will then have to manually input the database info
+                                through the domain.
+
+    dru_install		Downloads and unpacks the drupal isntall, you or the user will then have to manually input the database info
+                                through the domain.
+
+    cube_install	Downloads and unpacks the roundcube install then runs the cube config function
+
+    cube_config		Prompts you for the database, username, and password and the server's IP, then contructs the config file with that info.
+
+SEE ALSO
+    guided
+BUGS
+    None known at this time.
+AUTHOR
+    Aaron Ladd email: fallenseriphan@gmail.com Motovosity always apprectiated.
