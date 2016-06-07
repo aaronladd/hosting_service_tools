@@ -117,7 +117,7 @@ diff_php_ini(){
 #finds and displays all error_logs under the current directory
 elog_display(){
 	if [[ $1 == "--help" || $1 == "-h" ]]; then
-        	echo -e "\n Displays the last 5 lines from every error_log in the current directory and every subdirectory. | Command supplied by Landon B."
+        	echo -e "\n Displays the last 5 lines from every error_log in the current directory and every subdirectory."
 	else
 		tail -n 5 $(find . -name error_log) \
 		| less
@@ -168,8 +168,6 @@ htac_display(){
 	if [[ $1 == "--help" || $1 == "-h" ]]; then
         	echo -e "\nDisplays the path and contents of each .htaccess file."
 	else
-        	echo -e "\n\tCommand supplied by Landon B.\n"
-		sleep 2
 		local i=
         	for i in $(find ~/public_html -name .htaccess) \
 			; do echo "==> $i <==" \
